@@ -38,6 +38,7 @@ const routes = (router) => {
     router.post('/api/token/refresh', auth.refresh);
 
     router.get('/api/threatmodel/repos', threatmodelController.repos);
+    router.get('/api/threatmodel/folders', threatmodelController.folders);
     router.get('/api/threatmodel/:organisation/:repo/branches', threatmodelController.branches);
     router.get('/api/threatmodel/:organisation/:repo/:branch/models', threatmodelController.models);
     router.get('/api/threatmodel/:organisation/:repo/:branch/:model/data', threatmodelController.model);

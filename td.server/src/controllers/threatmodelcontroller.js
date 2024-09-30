@@ -35,6 +35,31 @@ const repos = (req, res) => responseWrapper.sendResponseAsync(async () => {
     };
 }, req, res, logger);
 
+const folders = (req, res) => responseWrapper.sendResponseAsync(async () => {
+    const googleDrive = repositories.getSpecific('googledrive');
+
+    const pageToken = req?.query?.pageToken || null;
+    let foldersResp;
+    let folders;
+    
+    logger.debug('Using listFoldersAsync');
+    
+    // Fetch the folders asynchronously from Google Drive
+    foldersResp = await googleDrive.listFoldersAsync(pageToken, req.provider.access_token);
+    folders = foldersResp.folders; // Get the list of folders from the response
+
+    const pagination = {
+        nextPageToken: foldersResp.nextPageToken || null,
+        currentPageToken: pageToken || null
+    };
+
+    logger.debug(`API folders request: ${logger.transformToString(req)}`);
+
+    return {
+        folders: folders.map((x) => x.name), // Return folder names
+        pagination: pagination
+    };
+}, req, res, logger);
 
 
 const branches = (req, res) => responseWrapper.sendResponseAsync(async () => {
@@ -219,5 +244,6 @@ export default {
     models,
     organisation,
     repos,
+    folders,
     update
 };

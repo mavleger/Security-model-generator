@@ -28,6 +28,14 @@ const reposAsync = (page = 1) => {
 };
 
 /**
+ * Gets the google drive folders for the given user
+ * @returns {Promise}
+ */
+const folderAsync = (page = 1) => {
+    return api.getAsync(`${resource}/folders`, { params: { page: page } });
+};
+
+/**
  * Gets the branches for the given repository
  * @param {String} fullRepoName
  * @returns {Promise}
@@ -81,6 +89,7 @@ export default {
     modelsAsync,
     organisationAsync,
     reposAsync,
+    folderAsync,
     createAsync,
     updateAsync
 };
